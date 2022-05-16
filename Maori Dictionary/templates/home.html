@@ -12,15 +12,23 @@
 
 <!-- Sends the admins ability to add categories through the base.html using blocks to align under category links. -->
 {% if admin == 1: %}
-<form class="small-form" method="POST">
-    <div class="button-group">
-        <input name="category" placeholder="Add category...">
-        <input type="submit" name="button" value="✓">
-    </div>
-</form>
+<div class="table">  <!-- Main div with class table. -->
+    <form class="myform" method="POST">
+        <div class="button-group">
+            <label for="cat">Add Category</label>
+            <input name="category" id="cat" placeholder="Enter name...">
+            <input type="submit" name="button" value="Add">
 
+            <label for="lang">Delete Category</label>
+            <select name="languages" id="lang">
+                {% for category, link in categories %}
+                    <option value="{{ link }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" name="button" value="Delete">
+        </div>
+    </form>
 
-<div class="table"> <!-- div with class table. -->
     <table>
         <tr>
             <th>First Name:</th>
@@ -38,13 +46,12 @@
             {% elif admin == 1: %}
             <td>Admin</td>
             {% else: %}
-            <td>user</td>
+            <td>User</td>
             {% endif %}
         </tr>
         {% endfor %}
     </table>
 </div>
-
 {% endif %}
 {% endblock %}
 
