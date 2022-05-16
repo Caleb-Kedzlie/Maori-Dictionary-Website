@@ -18,6 +18,33 @@
         <input type="submit" name="button" value="✓">
     </div>
 </form>
+
+
+<div class="table"> <!-- div with class table. -->
+    <table>
+        <tr>
+            <th>First Name:</th>
+            <th>Last Name:</th>
+            <th>Role:</th>
+        </tr>
+        <!-- Extracts the first name, last name role from the users table sent from app.py -->
+        {% for fname, lname, admin in users: %}
+        <tr>
+            <td>{{ fname }}</td>
+            <td>{{ lname }}</td>
+            <!-- Shows if the users are owner, admin or user based on their admin variable -->
+            {% if admin == 2: %}
+            <td>Owner</td>
+            {% elif admin == 1: %}
+            <td>Admin</td>
+            {% else: %}
+            <td>user</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
 {% endif %}
 {% endblock %}
 

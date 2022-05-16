@@ -6,7 +6,7 @@
 
 {% block main %}
 
-<div class="table"> <!-- div with class product-box and colored by id. -->
+<div class="table"> <!-- div with the table class. -->
     <table>
         <tr>
             <th>Maori:</th>
@@ -16,7 +16,7 @@
             <th>Image:</th>
         </tr>
 
-        <!-- Compare the items in the table with the current selected category, if valid then it gets presented. -->
+        <!-- Compare the items in the table from app.py with the current category, if equal then it gets presented. -->
         {% for items in table %}
             {% if items[3].capitalize() == current: %}
                 <tr>

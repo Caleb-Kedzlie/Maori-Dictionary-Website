@@ -52,10 +52,25 @@ def get_categories():
     return categories_table
 
 
+def get_users():
+    # Creates the connection to the database.
+    con = create_connection(DB_NAME)
+
+    # Gets the values from the categories table.
+    query = "SELECT fname, lname, admin FROM users"
+    cur = con.cursor()
+    cur.execute(query)
+    # Sets the fetched database variables into a table called user_table.
+    user_table = cur.fetchall()
+    con.close()
+    # Returns the user table to other functions.
+    return user_table
+
+
 @app.route('/')
 def render_homepage():
     # Runs the main home page with all the variables inserted into the render template.
-    return render_template('home.html', table=get_dictionary(), categories=get_categories(),
+    return render_template('home.html', table=get_dictionary(), categories=get_categories(), users=get_users(),
                            logged_in=is_logged_in(), name=session.get('first_name'), admin=session.get('admin'))
 
 
