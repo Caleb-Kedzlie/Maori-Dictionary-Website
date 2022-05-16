@@ -99,7 +99,7 @@ def render_menu_page(category):
             print("Added item")
 
     # Replaces '&' from the link with ' / ' to simplify modifying extracted table values in the html template script.
-    current_category = category.replace("&", " / ")
+    current_category = category.replace("&", " / ").capitalize()
     print(current_category)
 
     return render_template("main.html", table=get_dictionary(), categories=get_categories(),
