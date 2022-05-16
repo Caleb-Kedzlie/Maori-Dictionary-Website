@@ -67,8 +67,51 @@ def get_users():
     return user_table
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def render_homepage():
+    if request.method == 'POST':
+        if request.form["button"] == "Add":
+            category = request.form.get('category').strip().capitalize()
+
+            if len(category) < 4:
+                return redirect('/?error=Categories+must+be+over+3+characters')
+
+            # Creates the database connection and the query.
+            con = create_connection(DB_NAME)
+            query = "INSERT INTO categories(id, category, link) VALUES(NULL,?,?)"
+
+            # Gets the cursor to execute the query into the database.
+            cur = con.cursor()
+            try:
+                cur.execute(query, (category, category.replace(" / ", "&")))
+            except sqlite3.IntegrityError:
+                return redirect(f'/?error=Duplicate+item')
+
+            # Commits the cursor execute through the database connection and then closes the connection.
+            con.commit()
+            con.close()
+            print("Added category: {}".format(category))
+
+        elif request.form["button"] == "Delete":
+            category = request.form.get('category').strip().capitalize()
+
+            # Creates the database connection and the query.
+            con = create_connection(DB_NAME)
+
+            print("Trying to delete")
+            # Creates the database connection and query.
+            con = create_connection(DB_NAME)
+            query = "Delete from categories where category = ?"
+            # Selects dictionary and then deletes the id of the selected item.
+            con.execute(query, )
+
+            cur.execute(query, (category, category.replace(" / ", "&")))
+
+            # Commits the cursor execute through the database connection and then closes the connection.
+            con.commit()
+            con.close()
+            print("Added category: {}".format(category))
+
     # Runs the main home page with all the variables inserted into the render template.
     return render_template('home.html', table=get_dictionary(), categories=get_categories(), users=get_users(),
                            logged_in=is_logged_in(), name=session.get('first_name'), admin=session.get('admin'))
@@ -78,12 +121,13 @@ def render_homepage():
 def render_menu_page(category):
     if request.method == 'POST':
         print("Main post method")
-        if "Delete" in request.form["button"]:
+        if request.form["button"] == "Delete":
             print("Trying to delete")
-            # Creates the database connection.
+            # Creates the database connection and query.
             con = create_connection(DB_NAME)
+            query = "Delete from dictionary where id = ?"
             # Selects dictionary and then deletes the id of the selected item.
-            con.execute('Delete from dictionary where id = ?', [int(request.form["button"].replace("Delete ", ""))])
+            con.execute(query, [int(request.form["button"].replace("Delete ", ""))])
             con.commit()
             con.close()
 
@@ -111,7 +155,7 @@ def render_menu_page(category):
 
             con.commit()
             con.close()
-            print("Added item")
+            print("Added item: {}".format(english))
 
     # Replaces '&' from the link with ' / ' to simplify modifying extracted table values in the html template script.
     current_category = category.replace("&", " / ").capitalize()
@@ -217,6 +261,11 @@ def render_signup_page():
 
     return render_template('signup.html', categories=get_categories(), logged_in=is_logged_in(),
                            name=session.get('first_name'), admin=session.get('admin'))
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('main.html/?error=Page+not+found')
 
 
 def is_logged_in():
