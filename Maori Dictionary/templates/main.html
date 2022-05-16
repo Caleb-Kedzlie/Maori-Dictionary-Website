@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Maōri Dictionary | {{current}}{% endblock %}
+
+{% block heading %}Maōri - English Dictionary &#160;&#160;-&#160;&#160; <em>{{current}}</em>{% endblock %}
+
+{% block main %}
+
+<div class="table"> <!-- div with class product-box and colored by id. -->
+    <table>
+        <tr>
+            <th>Maori:</th>
+            <th>English:</th>
+            <th>Definition:</th>
+            <th>Level:</th>
+            <th>Image:</th>
+        </tr>
+
+        <!-- Compare the items in the table with the current selected category, if valid then it gets presented. -->
+        {% for items in table %}
+            {% if items[3].capitalize() == current: %}
+                <tr>
+                    <!-- Maori, English, Definition, and Image in that order (Also if they are admin they can delete)-->
+                    <td>{{items[1].capitalize()}}
+                        {% if admin == 1: %} <form class="myform" method="POST">
+                            <input type="submit" name="button" value="Delete {{items[0]}}"/>
+                        </form> {% endif %}
+                    </td>
+                    <td>{{items[2].capitalize()}} </td>
+                    <td>{{items[4].capitalize()}}</td>
+                    <td>Year:{{items[5]}}</td>
+                    <!-- The Image is based on the english name, and an alternate image if the image is invalid. -->
+                    <td><img id="img" src="/static/images/{{ items[2] }}.jpg" alt="Not Found"
+                             onerror=this.src="/static/images/null.jpg"></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        {% if admin == 1: %}
+        <!-- Form used to insert words and values for adding a new item and submitting it to the database -->
+        <form class="myform" method="POST">
+            <div class="button-group">
+                <label><input name="maori" placeholder="Maori word..."></label>
+                <label><input name="english" placeholder="English word..."></label>
+                <label><input name="definition" placeholder="Definition..."></label>
+                <label><input type="number" name="level" placeholder="Level..."></label>
+                <label><input name="image" placeholder="Img Src..."></label>
+                <label><input type="submit" name="button" value="AddItem"></label>
+            </div>
+        </form>
+        {% endif %}
+
+    </table>
+</div>
+
+{% endblock %}

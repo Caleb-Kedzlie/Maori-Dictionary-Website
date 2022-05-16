@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Maōri Dictionary | Home{% endblock %}
+
+{% block heading %}Maōri - English Dictionary &#160;&#160;-&#160;&#160; <em>Home</em>{% endblock %}
+
+{% block main %}
+<!-- Home page text -->
+<h1>Welcome to: Maōri - English Dictionary</h1>
+<h3>Use the links on the left to choose a category.</h3>
+<p>Version: 2.6</p>
+
+<!-- Sends the admins ability to add categories through the base.html using blocks to align under category links. -->
+{% if admin == 1: %}
+<form class="small-form" method="POST">
+    <div class="button-group">
+        <input name="category" placeholder="Add category...">
+        <input type="submit" name="button" value="✓">
+    </div>
+</form>
+{% endif %}
+{% endblock %}
+
+

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Suez+One&display=swap" rel="stylesheet">
+	<title>{% block title %}{% endblock %}</title>
+	<meta name="Description" content="Author: Caleb Kedzlie, Content: A dictionary to learn Maori words in english.">
+</head>
+
+<body>
+	<div id="container">
+
+		<header>
+			<div class="header">
+				<h1>{% block heading %}{% endblock %}</h1> <!-- Update to show their username -->
+				<p>Please choose from the links below:</p>
+			</div>
+
+		</header>
+
+		<nav>
+            <input type="checkbox" name="drop_down_menu" />
+			<span></span>
+			<span></span>
+			<span></span>
+			<ul>
+				<!-- Main home link at top. -->
+				<li><a href="\">Home</a></li>
+
+				<!-- Creates all the tidy links using a for loop and redirects by using the category name in the link.
+				value.replace(" / ", "&") is used to remove spaces, and replace ' / ' with '&' to fix the link. -->
+				{% for category, link in categories %}
+				<li><a href="\main\{{ link }}">{{ category }}</a></li>
+        		{% endfor %}
+
+				<!-- Presents the account name and admin value and login link based on account status -->
+				{% if logged_in: %}
+					<li><a href="\logout">Logout</a></li>
+					<span></span>
+
+					<h3>Account: {{ name }} <em>Admin: {{ admin }}</em></h3>
+				{% else: %}
+					<li><a href="\login">Login</a></li>
+					<span></span>
+					<h3>Not logged in.</h3>
+				{% endif %}
+			</ul>
+		</nav>
+
+		<main>
+            {% block main %}{% endblock %}
+        </main>
+
+		<footer>
+			<p>&copy; Caleb Kedzlie 2022</p>
+		</footer>
+
+	</div>
+</body>
+</html>

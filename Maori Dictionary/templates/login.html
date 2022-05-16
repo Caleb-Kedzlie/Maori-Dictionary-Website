@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Maōri Dictionary | Login{% endblock %}
+
+{% block heading %}Maōri - English Dictionary &#160;&#160;-&#160;&#160; <em>Login</em>{% endblock %}
+
+{% block main %}
+
+{% if not logged_in: %}
+<form class="myform" method="POST">
+    <!-- Login details consisting of email, password, and submit button or signup.-->
+    <div class="centered"><h1>Please enter login details:</h1></div>
+
+    <div class="form-group">
+        <div class="form-label">Email:</div>
+        <div class="form-element"><label><input type="email" name="email" required></label></div>
+    </div>
+
+    <div class="form-group">
+        <div class="form-label">Password:</div>
+        <div class="form-element"><label><input id="password" type="password" name="password" required></label></div>
+    </div>
+
+    <div class="button-group">
+        <input type="submit" value="Submit"> or <a href="/signup">sign up</a>
+    </div>
+
+</form>
+{% else %}
+    <!-- If the user manages to reopen this page after logging in, it says they are already logged in. -->
+    <div class="centered"><h1>Already logged in!</h1></div>
+    <p>Logout at the bottom left.</p>
+{% endif %}
+{% endblock %}
