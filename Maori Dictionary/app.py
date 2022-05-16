@@ -156,9 +156,6 @@ def render_login_page():
         print(session)
         return redirect('/')
 
-    # Gets all the categories and sends them through the render template to present all the category links.
-    categories_list = get_categories(get_dictionary())
-
     return render_template('login.html', categories=get_categories(), logged_in=is_logged_in(),
                            name=session.get('first_name'), admin=session.get('admin'))
 
@@ -202,9 +199,6 @@ def render_signup_page():
         con.commit()
         con.close()
         return redirect('/')
-
-    # Gets all the categories and sends them through the render template to present all the category links.
-    categories_list = get_categories(get_dictionary())
 
     return render_template('signup.html', categories=get_categories(), logged_in=is_logged_in(),
                            name=session.get('first_name'), admin=session.get('admin'))
