@@ -88,6 +88,7 @@ def render_menu_page(category):
 
             # Executes the query to upload the words using the cursor then commits and closes the database.
             cur = con.cursor()
+
             try:
                 cur.execute(query, (maori, english, category, definition, level))
             except sqlite3.IntegrityError:
