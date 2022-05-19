@@ -152,7 +152,7 @@ footer img {
     padding: 8px;
 }
 
-.button-group input {
+.button-group input, select {
     margin-top: 5px;
     padding: 5px;
 }
