@@ -15,12 +15,12 @@
 <div class="table">  <!-- Main div with class table. -->
     <form class="myform" method="POST">
         <div class="button-group">
-            <label for="cat">Add Category</label>
-            <input name="category" id="cat" placeholder="Enter name...">
+            <label for="add_category">Add Category</label>
+            <input name="insert_category" id="add_category" placeholder="Enter name...">
             <input type="submit" name="button" value="Add">
 
-            <label for="lang">Delete Category</label>
-            <select name="languages" id="lang">
+            <label for="delete_category">Delete Category</label>
+            <select name="remove_category" id="delete_category">
                 {% for category, link in categories %}
                     <option value="{{ link }}">{{ category }}</option>
                 {% endfor %}
