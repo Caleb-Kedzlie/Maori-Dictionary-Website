@@ -39,12 +39,12 @@
         <!-- Form used to insert words and values for adding a new item and submitting it to the database -->
         <form class="myform" method="POST">
             <div class="button-group">
-                <label><input name="maori" placeholder="Maori word..."></label>
-                <label><input name="english" placeholder="English word..."></label>
-                <label><input name="definition" placeholder="Definition..."></label>
-                <label><input type="number" name="level" placeholder="Level..."></label>
-                <label><input name="image" placeholder="Img Src..."></label>
-                <label><input type="submit" name="button" value="AddItem"></label>
+                <label><input name="maori" placeholder="Maori word"></label>
+                <label><input name="english" placeholder="English word"></label>
+                <label><input name="definition" placeholder="Definition"></label>
+                <label><input type="number" name="level" placeholder="Year" min="1" max="10"></label>
+                <label><input name="image" placeholder="Img Link"></label>
+                <input type="submit" name="button" value="AddItem">
             </div>
         </form>
         {% endif %}
