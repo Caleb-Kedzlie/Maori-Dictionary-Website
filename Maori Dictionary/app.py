@@ -74,7 +74,7 @@ def render_homepage():
         con = create_connection(DB_NAME)
         cur = con.cursor()
         if request.form["button"] == "Add":
-            category = request.form.get('category').strip().capitalize()
+            category = request.form.get('insert_category').strip().capitalize()
 
             if len(category) < 4:
                 return redirect('/?error=Categories+must+be+over+3+characters')
@@ -94,10 +94,10 @@ def render_homepage():
             print("Added category: {}".format(category))
 
         elif request.form["button"] == "Delete":
-            category = request.form.get('category').strip().capitalize()
+            category = request.form.get('remove_category').strip().capitalize()
 
             # Creates the delete query for the categories dictionary via an inputted category, then it's executed.
-            query = "Delete from categories where category = ?"
+            query = "Delete from categories where link = ?"
             cur.execute(query, (category,))
 
             # Commits the cursor query and closes connection.
@@ -120,7 +120,7 @@ def render_menu_page(category):
             con = create_connection(DB_NAME)
             query = "Delete from dictionary where id = ?"
             # Selects dictionary and then deletes the id of the selected item.
-            con.execute(query, [int(request.form["button"].replace("Delete ", ""))])
+            con.execute(query, (int(request.form["button"].replace("Delete ", "")),))
             con.commit()
             con.close()
 
@@ -258,7 +258,7 @@ def render_signup_page():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('main.html/?error=Page+not+found')
+    return redirect('base.html')
 
 
 def is_logged_in():
