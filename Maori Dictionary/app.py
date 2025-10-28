@@ -2,12 +2,11 @@ from flask import Flask, render_template, request, session, redirect
 import sqlite3
 from sqlite3 import Error
 
-# from flask_bcrypt import bcrypt
-
-DB_NAME = "C:/Users/18173/OneDrive - Wellington College/13DTS/Python/Maori Dictionary/dictionary.db"
+DB_PATH = "dictionary.db"
 
 app = Flask(__name__)
-app.secret_key = "1qAZ2wSx3Edc4rfv5Tgb6yhn7ujM8Ik9ol0P"
+# I would hide the secret key if this were a production application.
+app.secret_key = "1qAZ2wSx3Edc4rfv5Tgb6yhn7ujM8Ik9ol0P" 
 
 
 def create_connection(db_file):
@@ -22,7 +21,7 @@ def create_connection(db_file):
 
 def get_dictionary():
     # Creates the connection to the database.
-    con = create_connection(DB_NAME)
+    con = create_connection(DB_PATH)
 
     # Gets the values from the product table.
     query = "SELECT id, maori, english, category, definition, level FROM dictionary"
@@ -39,7 +38,7 @@ def get_dictionary():
 
 def get_categories():
     # Creates the connection to the database.
-    con = create_connection(DB_NAME)
+    con = create_connection(DB_PATH)
 
     # Gets the values from the categories table.
     query = "SELECT category, link FROM categories"
@@ -54,7 +53,7 @@ def get_categories():
 
 def get_users():
     # Creates the connection to the database.
-    con = create_connection(DB_NAME)
+    con = create_connection(DB_PATH)
 
     # Gets the values from the categories table.
     query = "SELECT fname, lname, admin FROM users"
@@ -71,7 +70,7 @@ def get_users():
 def render_homepage():
     if request.method == 'POST':
         # Creates database connection and gets cursor for executing queries if user is modifying with "POST" method.
-        con = create_connection(DB_NAME)
+        con = create_connection(DB_PATH)
         cur = con.cursor()
         if request.form["button"] == "Add":
             category = request.form.get('insert_category').strip().capitalize()
@@ -117,7 +116,7 @@ def render_menu_page(category):
         if request.form["button"] == "Delete":
             print("Trying to delete")
             # Creates the database connection and query.
-            con = create_connection(DB_NAME)
+            con = create_connection(DB_PATH)
             query = "Delete from dictionary where id = ?"
             # Selects dictionary and then deletes the id of the selected item.
             con.execute(query, (int(request.form["button"].replace("Delete ", "")),))
@@ -135,7 +134,7 @@ def render_menu_page(category):
             level = request.form.get('level').strip()
 
             # Creates the database connection and the query.
-            con = create_connection(DB_NAME)
+            con = create_connection(DB_PATH)
             query = "INSERT INTO dictionary(id, maori, english, category, definition, level) VALUES(NULL,?,?,?,?,?)"
 
             # Executes the query to upload the words using the cursor then commits and closes the database.
@@ -174,7 +173,7 @@ def render_login_page():
         password = request.form['password'].strip()
 
         # Creates connection to database and extracts variables.
-        con = create_connection(DB_NAME)
+        con = create_connection(DB_PATH)
         query = "SELECT id, fname, password, admin FROM users WHERE email = ?"
 
         cursor = con.cursor()
@@ -231,7 +230,7 @@ def render_signup_page():
         # hashed_password = bcrypt.generate_password_hash(password)
 
         # Creates the database connection.
-        con = create_connection(DB_NAME)
+        con = create_connection(DB_PATH)
 
         # Creates the query.
         query = "INSERT INTO users(id, fname, lname, email, password) VALUES(NULL,?,?,?,?)"
